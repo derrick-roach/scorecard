@@ -64,12 +64,17 @@ jobs:
           # of the value entered here.
           publish_results: false
 
+      # Get current date
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
       # Upload the results as artifacts (optional). Commenting out will disable uploads of run results in SARIF
       # format to the repository Actions tab.
       - name: "Upload artifact"
         uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535 # v3.0.0
         with:
-          name: "${{ inputs.repo }}-$NOW-scorecard-sarif"
+          name: "${{ inputs.repo }}-${{ steps.date.outputs.date }}-scorecard-sarif"
           # name: SARIF file
           path: results.sarif
           retention-days: 5
