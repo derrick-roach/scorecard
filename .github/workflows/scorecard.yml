@@ -68,7 +68,7 @@ jobs:
         run: |
           REPO=${{ inputs.repo }}
           REPO_PATH="${REPO//\//-}"
-          echo "name=repo_path" >> $GITHUB_ENV
+          echo "repo_path=$REPO_PATH" >> $GITHUB_ENV
           
         # echo "::set-output name=repo_path::$REPO_PATH"
 
