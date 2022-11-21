@@ -68,7 +68,7 @@ jobs:
         run: |
           REPO=${{ inputs.repo }}
           REPO_PATH="${REPO//\//-}"
-          echo $REPO_PATH
+          echo "::set-output name=repo_path::$REPO_PATH"
         
           # echo ${BRANCH_NAME//\//_}
 
@@ -82,7 +82,7 @@ jobs:
       - name: "Upload artifact"
         uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535 # v3.0.0
         with:
-          name: "${{ steps.repo_path.outputs.REPO_PATH }}_${{ steps.date.outputs.date }}_scorecard-sarif"
+          name: "${{ steps.repo_path.outputs.repo_path }}_${{ steps.date.outputs.date }}_scorecard-sarif"
           # name: SARIF file
           path: results.sarif
           retention-days: 5
