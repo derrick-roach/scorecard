@@ -2,14 +2,26 @@ name: Scorecards supply-chain security
 on:
   # Only the default branch is supported.
   branch_protection_rule:
-  schedule:
-    - cron: '30 1 * * 0'
+  #schedule:
+  #  - cron: '30 1 * * 0'
   # push:
   #   branches: [ "main" ]
   # pull_request:
     # The branches below must be a subset of the branches above
   #   branches: [ "main" ]
   workflow_dispatch:
+    inputs:
+      repo:
+        type: choice
+        description: Public repo to analyze
+        options: 
+        - npm/cli
+        - vuejs/vue
+        - facebook/react
+        - tensorflow/tensorflow
+        - TheAlgorithms/Python
+      message:
+        required: true
 
 # Declare default permissions as read only.
 permissions: read-all
@@ -31,7 +43,7 @@ jobs:
       - name: "Checkout code"
         uses: actions/checkout@a12a3943b4bdde767164f792f33f40b04645d846 # v3.0.0
         with:
-          repository: npm/cli
+          repository: ${{ inputs.repo }} 
           # path: cli
           persist-credentials: false
 
