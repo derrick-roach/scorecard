@@ -20,8 +20,6 @@ on:
         - facebook/react
         - tensorflow/tensorflow
         - TheAlgorithms/Python
-      message:
-        required: true
 
 # Declare default permissions as read only.
 permissions: read-all
@@ -64,6 +62,16 @@ jobs:
           # of the value entered here.
           publish_results: false
 
+      # Remove forward slash (/) from repo name for results file name
+      - name: Replace forward slash
+        id: repo_path
+        run: |
+          REPO=${{ inputs.repo }}
+          REPO_PATH="${REPO//\//-}"
+          echo $REPO_PATH
+        
+          # echo ${BRANCH_NAME//\//_}
+
       # Get current date
       - name: Get current date
         id: date
@@ -74,7 +82,7 @@ jobs:
       - name: "Upload artifact"
         uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535 # v3.0.0
         with:
-          name: "${{ inputs.repo }}-${{ steps.date.outputs.date }}-scorecard-sarif"
+          name: "${{ steps.repo_path.outputs.repo_path }}-${{ steps.date.outputs.date }}-scorecard-sarif"
           # name: SARIF file
           path: results.sarif
           retention-days: 5
