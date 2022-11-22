@@ -41,7 +41,7 @@ jobs:
       # Verify go version
       - name: Verify go version
         id: go
-        run: echo $ go version
+        run: echo go version
         
       # Run scorecard with homebrew
       - name: Run scorecard with homebrew
@@ -49,7 +49,9 @@ jobs:
         run: |
           export GITHUB_AUTH_TOKEN=${{ secrets.SCORECARD_READ_TOKEN }}
           brew install scorecard
-          scorecard --repo=${{ inputs.repo }} | tee -a output.txt
+          scorecard --repo=${{ inputs.repo }} 
+          
+        # scorecard --repo=${{ inputs.repo }} | tee -a output.txt
 
       # Remove forward slash (/) from repo name for results file name
       - name: Replace forward slash
