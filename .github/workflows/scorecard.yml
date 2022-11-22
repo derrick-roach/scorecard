@@ -77,12 +77,12 @@ jobs:
         id: date
         run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
         
-      # Convert sarif to csv
-      - name: Convert sarif to csv
-        id: csv
-        run: |
-          in2csv -k data results.sarif > results.csv
-          echo results.csv
+      # Convert sarif to csv (NOT WORKING YET)
+      #- name: Convert sarif to csv
+      #  id: csv
+      #  run: |
+      #    in2csv -k data results.sarif > results.csv
+      #    echo results.csv
 
       # Upload the results as artifacts (optional). Commenting out will disable uploads of run results in SARIF
       # format to the repository Actions tab.
