@@ -48,8 +48,8 @@ jobs:
       - name: "Run analysis"
         uses: ossf/scorecard-action@3e15ea8318eee9b333819ec77a36aca8d39df13e # v1.1.1
         with:
-          results_file: results.sarif
-          results_format: sarif
+          results_file: results.json
+          results_format: json
           # (Optional) Read-only PAT token. Uncomment the `repo_token` line below if:
           # - you want to enable the Branch-Protection check on a *public* repository, or
           # - you are installing Scorecards on a *private* repository
@@ -76,15 +76,22 @@ jobs:
       - name: Get current date
         id: date
         run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+        
+      # Convert json to csv
+      - name: Convert json to csv
+        id: csv
+        run: |
+          in2csv -k data results.json > results.csv
+          echo results.csv
 
       # Upload the results as artifacts (optional). Commenting out will disable uploads of run results in SARIF
       # format to the repository Actions tab.
       - name: "Upload artifact"
         uses: actions/upload-artifact@6673cd052c4cd6fcf4b4e6e60ea986c889389535 # v3.0.0
         with:
-          name: "${{ env.repo_path }}_${{ env.date }}_scorecard-sarif"
+          name: "${{ env.repo_path }}_${{ env.date }}_scorecard-json"
           # name: SARIF file
-          path: results.sarif
+          path: results.json
           retention-days: 5
       
       # Upload the results to GitHub's code scanning dashboard.
